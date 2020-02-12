@@ -1,0 +1,31 @@
+{
+  "name": "snakebot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/babel src --out-dir lib",
+    "start": "node lib/index.js",
+    "debug": "npm run build && node --inspect lib/index.js",
+    "deploy": "git push heroku master"
+  },
+  "author": "Prayog",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
+    "ffmpeg": "0.0.4",
+    "node-opus": "^0.3.3",
+    "ytdl-core": "^1.0.7"
+  }
+}
