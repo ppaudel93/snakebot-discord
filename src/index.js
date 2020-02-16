@@ -6,6 +6,8 @@ import responses from './responses'
 import isValidUrl from './utils/is-valid-url'
 import getVideoUrl from './utils/get-video-url'
 
+const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch?v=';
+
 const client = new Client()
 let joinedVoiceChannel = null
 
@@ -33,19 +35,26 @@ client.on('message', msg => {
   } else if (msg.content.startsWith('!play ')) {
     if (joinedVoiceChannel?.connection) {
       if (isValidUrl(msg.content.split('!play ')[1])) {
-        getVideoDetails(process.env.YOUTUBE_API_KEY, msg.content.split('!play ')[1])()
+        getVideoDetails(process.env.YOUTUBE_API_KEY, msg.content.split('!play ')[1])
           .then(res => {
             const data = res.data.items[0];
             msg.reply(`Playing ${data.snippet.title}`);
           })
-          .catch(err => console.error(err));
+          .catch(err => {
+            console.error(err)
+            msg.reply('There seems to be a problem. ☹️')
+          });
         playAudio(joinedVoiceChannel.connection, msg.content.split('!play ')[1]);
       } else {
-        getVideoUrl(process.env.YOUTUBE_API_KEY, msg.content.split('!play ')[1])()
+        getVideoUrl(process.env.YOUTUBE_API_KEY, msg.content.split('!play ')[1])
           .then(res => {
-            const date = res.data
-            debugger
-          }).catch(err => console.error(err))
+            const data = res.data
+            msg.reply(`Playing ${data.items[0].snippet.title}`)
+            playAudio(joinedVoiceChannel.connection, `${YOUTUBE_BASE_URL}${data.items[0].id.videoId}`);
+          }).catch(err => {
+            console.error(err)
+            msg.reply('There seems to be a problem. ☹️')
+          })
       }
     } else {
       msg.reply('I have not joined a voice channel. ☹️');
