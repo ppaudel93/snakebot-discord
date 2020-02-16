@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const BASE_YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3';
+const BASE_YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3/';
 
 const dispatcher = ({ method, params, url}) => {
-  return axios.create({
+  return axios({
     baseURL: BASE_YOUTUBE_API_URL,
     url,
     method,
